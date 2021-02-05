@@ -46,7 +46,7 @@ const RegisterScreen = (props) => {
       name:Name
     };
     let dataToSend = JSON.stringify(data)
-   console.log(dataToSend)
+  //  console.log(dataToSend)
 
     fetch(`${api}/users/`, {
       method: 'POST',
@@ -56,29 +56,27 @@ const RegisterScreen = (props) => {
         "Content-Type": "application/json"
       },
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // console.log(response.status);
-
-        // If server response message same as Data Matched
-        if (responseJson.ok) {
-          setIsRegistraionSuccess(true);
-          console.log(
-            'Registration Successful. Please Login to proceed'
-          );
-        } else {
-          setErrortext(responseJson.message);
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
-  };
+    .then((response) =>response.json())
+    .then((responseJson) => {
+      //Hide Loader
+      setLoading(false);
+      // console.log(responseJson);
+      // If server response message same as Data Matched
+      if (responseJson.type != "error") {
+        setIsRegistraionSuccess(true);
+        console.log(
+          'Registration Successful. Please Login to proceed'
+        );
+      } else {
+        setErrortext(responseJson.message);
+      }
+    })
+    .catch((error) => {
+      //Hide Loader
+      setLoading(false);
+      console.error(error);
+    });
+};
   if (isRegistraionSuccess) {
     return (
       <View
