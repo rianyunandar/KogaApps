@@ -11,15 +11,15 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-
+import api from '../api'
 import Loader from './Components/Loader';
 
 const RegisterScreen = (props) => {
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userName, setUserName] = useState('ganteng2');
+  const [userEmail, setUserEmail] = useState('gaten2g@gmail.com');
+  const [Name, setName] = useState('ganteng2');
+  const [userPassword, setUserPassword] = useState('ganteng123');
+  const [userComfrimPassword, setuserComfrimPassword] = useState('ganteng123');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [
@@ -28,56 +28,32 @@ const RegisterScreen = (props) => {
   ] = useState(false);
 
   const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
+  const nameInputRef = createRef();
   const passwordInputRef = createRef();
+  const comfirmPasswordInputRef = createRef();
+
 
   const handleSubmitButton = () => {
     setErrortext('');
-    if (!userName) {
-      alert('Please fill Name');
-      return;
-    }
-    if (!userEmail) {
-      alert('Please fill Email');
-      return;
-    }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
-      return;
-    }
-    if (!userPassword) {
-      alert('Please fill Password');
-      return;
-    }
+    
     //Show Loader
     setLoading(true);
-    var dataToSend = {
-      name: userName,
+    var data = {
+      username: userName,
       email: userEmail,
-      age: userAge,
-      address: userAddress,
+      confirm_password: userComfrimPassword,
       password: userPassword,
+      name:Name
     };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    let dataToSend = JSON.stringify(data)
+   console.log(dataToSend)
 
-    fetch('http://localhost:3000/api/user/register', {
+    fetch(`${api}/users/`, {
       method: 'POST',
-      body: formBody,
+      body: dataToSend,
       headers: {
         //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
+        "Content-Type": "application/json"
       },
     })
       .then((response) => response.json())
@@ -85,14 +61,16 @@ const RegisterScreen = (props) => {
         //Hide Loader
         setLoading(false);
         console.log(responseJson);
+        // console.log(response.status);
+
         // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
+        if (responseJson.ok) {
           setIsRegistraionSuccess(true);
           console.log(
             'Registration Successful. Please Login to proceed'
           );
         } else {
-          setErrortext(responseJson.msg);
+          setErrortext(responseJson.message);
         }
       })
       .catch((error) => {
@@ -155,9 +133,27 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Name"
+              placeholder="Enter Username"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
+              returnKeyType="next"
+              // value="ganteng"
+              onSubmitEditing={() =>
+                nameInputRef.current && nameInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(Name) => setName(Name)}
+              underlineColorAndroid="#f000"
+              placeholder="Enter Name"
+              placeholderTextColor="#8b9cb5"
+              ref={nameInputRef}
+              autoCapitalize="sentences"
+              // value="ganteng"
               returnKeyType="next"
               onSubmitEditing={() =>
                 emailInputRef.current && emailInputRef.current.focus()
@@ -172,6 +168,7 @@ const RegisterScreen = (props) => {
               underlineColorAndroid="#f000"
               placeholder="Enter Email"
               placeholderTextColor="#8b9cb5"
+              // value="ganteng@gmail.com"
               keyboardType="email-address"
               ref={emailInputRef}
               returnKeyType="next"
@@ -194,42 +191,28 @@ const RegisterScreen = (props) => {
               ref={passwordInputRef}
               returnKeyType="next"
               secureTextEntry={true}
+              // value="ganteng"
               onSubmitEditing={() =>
-                ageInputRef.current &&
-                ageInputRef.current.focus()
+                comfirmPasswordInputRef.current &&
+                comfirmPasswordInputRef.current.focus()
               }
               blurOnSubmit={false}
             />
           </View>
+          
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Age"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddress) =>
-                setUserAddress(UserAddress)
+              onChangeText={(userComfrimPassword) =>
+                setuserComfrimPassword(userComfrimPassword)
               }
               underlineColorAndroid="#f000"
-              placeholder="Enter Address"
+              placeholder="Enter Comfrim Password"
               placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
+              ref={comfirmPasswordInputRef}
               returnKeyType="next"
+              secureTextEntry={true}
+              // value="ganteng"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
