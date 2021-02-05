@@ -1,6 +1,3 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
 // Import React and Component
 import React, {useState, createRef} from 'react';
 import {
@@ -42,9 +39,9 @@ const LoginScreen = ({navigation}) => {
     let data = {email: userEmail, password: userPassword};
     let dataToSend = JSON.stringify(data)
 
-    console.log(dataToSend)
+    // console.log(dataToSend)
 
-    fetch(`https://martabak-koga-server.herokuapp.com/api/v1/users/login`, {
+    fetch(`${api}/users/login`, {
       method: 'POST',
       body: dataToSend,
       headers: {
@@ -54,16 +51,16 @@ const LoginScreen = ({navigation}) => {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        //Hide Loader
         setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
+        
+        if (responseJson.token != undefined) {
           AsyncStorage.setItem('token', responseJson.token);
-          console.log(responseJson.data.email);
+          console.log(responseJson)
+          console.log(responseJson.token);
           navigation.replace('DrawerNavigationRoutes');
-        } else {
-          setErrortext(responseJson.msg);
+        } else {        
+          console.log(responseJson)
+          setErrortext(responseJson.message);
           console.log('Please check your email id or password');
         }
       })
@@ -103,7 +100,7 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={(UserEmail) =>
                   setUserEmail(UserEmail)
                 }
-                placeholder="Enter Email" //dummy@abc.com
+                placeholder="Enter Email" 
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"
