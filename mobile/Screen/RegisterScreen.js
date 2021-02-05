@@ -15,11 +15,11 @@ import api from '../api'
 import Loader from './Components/Loader';
 
 const RegisterScreen = (props) => {
-  const [userName, setUserName] = useState('ganteng2');
-  const [userEmail, setUserEmail] = useState('gaten2g@gmail.com');
-  const [Name, setName] = useState('ganteng2');
-  const [userPassword, setUserPassword] = useState('ganteng123');
-  const [userComfrimPassword, setuserComfrimPassword] = useState('ganteng123');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [Name, setName] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userComfrimPassword, setuserComfrimPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [

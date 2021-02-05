@@ -1,49 +1,77 @@
+import React, { Component } from 'react';
+import { Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  Dimensions,
+  View,
+  ScrollView,
+  TextInput
+} from 'react-native';
+var {height, width } = Dimensions.get('window');
+import Swiper from 'react-native-swiper'
+import api from '../../api'
+import Axios from 'axios'
+export default class App extends Component {
 
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      dataBanner:[]
+    }
+  }
 
-// Import React and Component
-import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+  componentDidMount(){
+    const url = `${api}/banners` 
+    return fetch(url)
+    .then((response) => response.json())
+    .then((responseJson) => {
 
-const HomeScreen = () => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, padding: 16}}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              marginBottom: 16,
-            }}>
-            Example of Splash, Login and Sign Up in React Native
-            {'\n\n'}
-            This is the Home Screen
-          </Text>
+      this.setState({
+        isLoading: false,
+        dataBanner: responseJson.data,
+      });
+
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+  }
+  
+  
+
+  render() {
+    return (
+      <ScrollView>
+        <View style={{ flex: 1,backgroundColor:"#f2f2f2" }}>
+          <View style={{width: width, alignItems:'center'}} >
+              <Image style={{height:60,width:width/2,margin:10 }} resizeMode="contain" source={require("../../Image/Logo.png")}  />
+              <Swiper style={{height:width/2}}  showsButtons={false} autoplay={true} autoplayTimeout={2}>
+                {
+                  this.state.dataBanner.map((img_url)=>{
+                    return(
+                      <Image style={styles.imageBanner} resizeMode="contain" source={{uri:img_url}}/>
+                    )
+                  })
+                }
+              </Swiper>
+              <View style={{height:20}} />
+          </View>
         </View>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          Splash, Login and Register Example{'\n'}React Native
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          www.aboutreact.com
-        </Text>
-      </View>
-    </SafeAreaView>
-  );
-};
+      </ScrollView>
+    )
+              
 
-export default HomeScreen;
+
+
+  }}
+
+  const styles = StyleSheet.create({
+    imageBanner: {
+      height:width/2,
+      width:width-40,
+      borderRadius:10,
+      marginHorizontal:20
+    }, 
+  });

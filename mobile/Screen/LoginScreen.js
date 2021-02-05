@@ -18,8 +18,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
 
 const LoginScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userEmail, setUserEmail] = useState('dragon@mail.com');
+  const [userPassword, setUserPassword] = useState('1234567');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
@@ -55,11 +55,11 @@ const LoginScreen = ({navigation}) => {
         
         if (responseJson.token != undefined) {
           AsyncStorage.setItem('token', responseJson.token);
-          console.log(responseJson)
-          console.log(responseJson.token);
+          // console.log(responseJson)
+          // console.log(responseJson.token);
           navigation.replace('DrawerNavigationRoutes');
         } else {        
-          console.log(responseJson)
+          // console.log(responseJson)
           setErrortext(responseJson.message);
           console.log('Please check your email id or password');
         }
