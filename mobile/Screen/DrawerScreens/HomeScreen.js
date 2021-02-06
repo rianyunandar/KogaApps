@@ -53,7 +53,7 @@ export default class App extends Component {
   }
 
   detailHandler(id) {
-    return this.props.navigation.push('DetailsScreen', {key: {id}});
+    return this.props.navigation.navigate('DetailsScreen', {key: {id}});
   }
 
   render() {
@@ -101,7 +101,7 @@ export default class App extends Component {
            data={this.state.dataMenus}
            renderItem={({ item }) => 
            (
-            <TouchableOpacity style={styles.menuListstyles} onPress={() => this.detailHandler()}>
+            <TouchableOpacity style={styles.menuListstyles} onPress={() => this.detailHandler(item.id)}>
                 <Text style={styles.menuHeaderList}>
                   {item.menu_tittle}
                 </Text>
