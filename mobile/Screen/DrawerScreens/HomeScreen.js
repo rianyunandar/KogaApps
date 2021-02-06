@@ -19,6 +19,7 @@ import api from "../../api";
 import Axios from "axios";
 import 'intl';
 import 'intl/locale-data/jsonp/id-ID'; // or any other locale you need
+import Loader from '../Components/Loader';
 
 const numberFormat = (value) =>
   new Intl.NumberFormat('locales', {
@@ -29,19 +30,21 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading:true,
       dataBanner: [],
       dataMenus:[]
     };
   }
 
   componentDidMount() {
+    
     const url = `${api}/menus`;
     Axios.get(url, {
       timeout: 20000
     })
       .then((response) => {
         this.setState({
-          isLoading: false,
+          loading: false,
           dataBanner: response.data.bannerList,
           dataMenus: response.data.menuList
         });
@@ -59,6 +62,7 @@ export default class App extends Component {
   render() {
     return (
       <>
+       <Loader loading={this.state.loading} />
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.centerView}>
