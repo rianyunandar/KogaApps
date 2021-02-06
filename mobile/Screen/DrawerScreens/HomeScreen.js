@@ -7,7 +7,8 @@ import {
   Dimensions,
   View,
   ScrollView,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from "react-native";
 var { height, width } = Dimensions.get("window");
 const a_proportion = '70%';
@@ -16,13 +17,23 @@ const b_proportion = '20%';
 import Swiper from "react-native-swiper";
 import api from "../../api";
 import Axios from "axios";
+import 'intl';
+import 'intl/locale-data/jsonp/id-ID'; // or any other locale you need
+const numberFormat = (value) =>
+  new Intl.NumberFormat('locales', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(value);
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataBanner: []
+      dataBanner: [],
+      dataMenus:[]
     };
   }
+
+ 
 
   componentDidMount() {
     const url = `${api}/menus`;
@@ -32,8 +43,10 @@ export default class App extends Component {
       .then((response) => {
         this.setState({
           isLoading: false,
-          dataBanner: response.data.bannerList
+          dataBanner: response.data.bannerList,
+          dataMenus: response.data.menuList
         });
+        // console.log(this.state.dataMenus)
       })
       .catch((error) => {
         console.error(error);
@@ -42,6 +55,7 @@ export default class App extends Component {
 
   render() {
     return (
+      <>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.centerView}>
@@ -73,9 +87,33 @@ export default class App extends Component {
             />
             <Text style={styles.textBanner}>Martabak Bangka Anugrah Koga</Text>
             <Text style={styles.mottoBanner}>We Always Serve The Best</Text>
-
           </View>
-      </ScrollView>
+          <View style={styles.container}>
+          <Text style={styles.menuHeader}>Our food menu</Text>
+          <Text style={styles.mottoBanner}>~ See what we offer ~</Text>
+          <View>
+          <Text style={styles.menuHeaderItalic}> Martabak Manis &amp; Martabak Telur</Text>
+          <FlatList
+           data={this.state.dataMenus}
+           renderItem={({ item }) => 
+           (
+            <TouchableOpacity >
+                <Text style={styles.menuHeaderList}>
+                  {item.menu_tittle}
+                </Text>
+                <Text style={styles.menuDescList}>{item.desc1}</Text>
+                <Text style={styles.menuDescList}> {`${(numberFormat(item.price))}`}</Text>
+               
+    
+              </TouchableOpacity>
+           )
+          }
+           keyExtractor = { (Object,index) => index.toString() }
+          />
+          </View>
+          </View>
+
+      </ScrollView></>
     );
   }
 }
@@ -114,12 +152,35 @@ const styles = StyleSheet.create({
     color: "red",
     alignSelf:"center",
     maxWidth:a_proportion,
-
-
   },
   mottoBanner: {
     fontFamily: "sans-serif-medium",
     color: "#cdaa7c",
-    marginHorizontal:10
-  }
+    marginHorizontal:10,
+    fontStyle:"italic",
+    alignSelf:"center"
+  },
+  menuHeader: {
+    fontFamily: "sans-serif-condensed",
+    color: "white",
+    fontWeight:"bold",
+    marginHorizontal:10,
+    textTransform: "uppercase",
+    fontSize:20,
+    alignSelf:"center"
+  },
+  menuHeaderItalic: {
+    fontFamily: "sans-serif-condensed",
+    color: "white",
+    fontWeight:"bold",
+    marginHorizontal:10,
+    textTransform: "uppercase",
+    fontSize:20,
+    alignSelf:"center",
+    fontStyle:"italic"
+  },
+  menuHeaderList:{fontWeight:'bold',fontSize:16,fontFamily:"monospace",fontWeight:"500",color:"white"},
+  menuDescList:{fontSize:14,color:"#999"},
+  dotGrow:{flexGrow:1,borderBottomColor:"#999"}
+
 });
