@@ -57,7 +57,7 @@ const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#112263',
     paddingTop: 40,
     color: 'white',
   },

@@ -27,7 +27,7 @@ const homeScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: '#112263', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -48,7 +48,7 @@ const settingScreenStack = ({navigation}) => {
           <NavigationDrawerHeader navigationProps={navigation} />
         ),
         headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
+          backgroundColor: '#112263', //Set Header color
         },
         headerTintColor: '#fff', //Set Header text color
         headerTitleStyle: {
@@ -71,7 +71,7 @@ const DrawerNavigatorRoutes = (props) => {
     <Drawer.Navigator
       drawerContentOptions={{
         activeTintColor: '#cee1f2',
-        color: '#cee1f2',
+        color: '#112263',
         itemStyle: {marginVertical: 5, color: 'white'},
         labelStyle: {
           color: '#d8d8d8',
