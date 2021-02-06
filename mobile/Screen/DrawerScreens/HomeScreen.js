@@ -19,6 +19,7 @@ import api from "../../api";
 import Axios from "axios";
 import 'intl';
 import 'intl/locale-data/jsonp/id-ID'; // or any other locale you need
+
 const numberFormat = (value) =>
   new Intl.NumberFormat('locales', {
     style: 'currency',
@@ -49,6 +50,10 @@ export default class App extends Component {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  detailHandler(id) {
+    return this.props.navigation.push('DetailsScreen', {key: {id}});
   }
 
   render() {
@@ -96,7 +101,7 @@ export default class App extends Component {
            data={this.state.dataMenus}
            renderItem={({ item }) => 
            (
-            <TouchableOpacity style={styles.menuListstyles}>
+            <TouchableOpacity style={styles.menuListstyles} onPress={() => this.detailHandler()}>
                 <Text style={styles.menuHeaderList}>
                   {item.menu_tittle}
                 </Text>
