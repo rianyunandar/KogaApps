@@ -24,16 +24,14 @@ export default class App extends Component {
 
   componentDidMount(){
     const url = `${api}/menus` 
-    return fetch(url)
-    .then((response) => response.json())
-    .then((responseJson) => {
-    // console.log(responseJson.banner)
-
-  
+    Axios.get(url, {
+      timeout: 20000
+  }).then((response)=>{
+      console.log(response.data.bannerList)
 
       this.setState({
         isLoading: false,
-        dataBanner: responseJson,
+        dataBanner: response.data.bannerList,
       });
       
     })
@@ -52,11 +50,11 @@ export default class App extends Component {
               <Image style={{height:60,width:width/2,margin:10 }} resizeMode="contain" source={require("../../Image/Logo.png")}  />
               <Swiper style={{height:width/2}}  showsButtons={false} autoplay={true} autoplayTimeout={2}>
                 {
-                  Object.entries(this.state.dataBanner).map((bannerList)=>{
-                    console.log(bannerList);
-                    // return(
-                    //   <Image key={bannerList.id} style={styles.imageBanner} resizeMode="contain" source={{uri:BannerList.img_url}}/>
-                    // )
+                  this.state.dataBanner.map(Object=>{
+                    console.log(Object);
+                    return(
+                      <Image key={Object.id} style={styles.imageBanner} resizeMode="contain" source={{uri:Object.img_url}}/>
+                    )
                   })
                 }
               </Swiper>
