@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#112263',
     alignContent: 'center',
   },
   SectionStyle: {
