@@ -1,7 +1,13 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
+import api from "../../api";
+import 'intl';
+import 'intl/locale-data/jsonp/id-ID'; // or any other locale you need
+import Loader from '../Components/Loader';
+import Axios from "axios";
+import AsyncStorage from '@react-native-community/async-storage';
 
-  export default class DetailsScreen extends React.Component {
+ export default class DetailsScreen extends React.Component {
 
   // const menuId = useNavigationParam('key');
   // const menuId = route.params;
@@ -10,9 +16,31 @@ import {View, Text, SafeAreaView} from 'react-native';
     super(props);
     this.state = {
       menuID: getId,
-      data: [],
+      dataDetail: [],
+      loading:true
     }}
   
+    componentDidMount() {
+      const userToken =  AsyncStorage.getItem('@token')
+      console.log(userToken)
+      const params = this.state.menuID;
+      const url = `${api}/menus/id/${params}`;
+      Axios.get(url, {
+        timeout: 20000
+      },{headers: {"Authorization" : `Bearer ${userToken}`}})
+        .then((response) => {
+          this.setState({
+            loading: false,
+            dataDetail: response.data
+          });
+          // console.log(this.state.dataMenus)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+
   render() {
     console.log(this.state.menuID)
   return (
