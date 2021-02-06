@@ -10,7 +10,7 @@ const { createMenuSchema, updateMenuSchema} = require('../middleware/validators/
 
 
 router.get('/',awaitHandlerFactory(menuController.getAllMenuBanner)); // localhost:3000/api/v1/menus/
-router.get('/id/:id', auth(), awaitHandlerFactory(menuController.getMenuById)); // localhost:3000/api/v1/menus/id/1
+router.get('/id/:id', awaitHandlerFactory(menuController.getMenuById)); // localhost:3000/api/v1/menus/id/1
 router.get('/menu', auth(), awaitHandlerFactory(menuController.getAllMenu)); // localhost:3000/api/v1/menus/whoami
 router.post('/', createMenuSchema, awaitHandlerFactory(menuController.createMenu)); // localhost:3000/api/v1/menus
 router.patch('/id/:id', auth(Role.Admin), updateMenuSchema, awaitHandlerFactory(menuController.updateMenu)); // localhost:3000/api/v1/menus/id/1 , using patch for partial update
