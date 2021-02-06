@@ -23,42 +23,47 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    const url = `${api}/banners` 
+    const url = `${api}/menus` 
     return fetch(url)
     .then((response) => response.json())
     .then((responseJson) => {
+    // console.log(responseJson.banner)
+
+  
 
       this.setState({
         isLoading: false,
-        dataBanner: responseJson.data,
+        dataBanner: responseJson,
       });
-
+      
     })
     .catch((error) =>{
       console.error(error);
     });
   }
-  
-  
 
   render() {
     return (
       <ScrollView>
+       {/* { Object.entries(this.state.dataBanner).map((postData) => {
+        console.log(postData) })} */}
         <View style={{ flex: 1,backgroundColor:"#f2f2f2" }}>
           <View style={{width: width, alignItems:'center'}} >
               <Image style={{height:60,width:width/2,margin:10 }} resizeMode="contain" source={require("../../Image/Logo.png")}  />
               <Swiper style={{height:width/2}}  showsButtons={false} autoplay={true} autoplayTimeout={2}>
                 {
-                  this.state.dataBanner.map((img_url)=>{
-                    return(
-                      <Image style={styles.imageBanner} resizeMode="contain" source={{uri:img_url}}/>
-                    )
+                  Object.entries(this.state.dataBanner).map((bannerList)=>{
+                    console.log(bannerList);
+                    // return(
+                    //   <Image key={bannerList.id} style={styles.imageBanner} resizeMode="contain" source={{uri:BannerList.img_url}}/>
+                    // )
                   })
                 }
               </Swiper>
               <View style={{height:20}} />
           </View>
         </View>
+       
       </ScrollView>
     )
               
