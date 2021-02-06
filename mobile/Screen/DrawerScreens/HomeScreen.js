@@ -33,8 +33,6 @@ export default class App extends Component {
     };
   }
 
- 
-
   componentDidMount() {
     const url = `${api}/menus`;
     Axios.get(url, {
@@ -80,7 +78,7 @@ export default class App extends Component {
             <View style={{ height: 10 }} />
           </View>
         </View>
-          <View style={styles.normalView}>
+          <View style={styles.LogoView}>
             <Image
               style={styles.logoBanner}
               source={require("../../Image/Logo.png")}
@@ -93,11 +91,12 @@ export default class App extends Component {
           <Text style={styles.mottoBanner}>~ See what we offer ~</Text>
           <View>
           <Text style={styles.menuHeaderItalic}> Martabak Manis &amp; Martabak Telur</Text>
+          <Text style={styles.hrLine}/>
           <FlatList
            data={this.state.dataMenus}
            renderItem={({ item }) => 
            (
-            <TouchableOpacity >
+            <TouchableOpacity style={styles.menuListstyles}>
                 <Text style={styles.menuHeaderList}>
                   {item.menu_tittle}
                 </Text>
@@ -122,13 +121,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#112263",
+    padding:5
   },
-  normalView: {
-    padding:20,
-    width: width,
-    alignContent: "stretch",
+  LogoView: {
     flexWrap:"wrap",
-    flexDirection:"row"
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center",
+    marginHorizontal:45
   },
   centerView: {
     width: width,
@@ -142,8 +142,9 @@ const styles = StyleSheet.create({
   },
   logoBanner: {
     maxHeight: 60,
-    maxWidth:b_proportion,
+    maxWidth:60,
     margin: 10,
+    
   },
   textBanner: {
     fontFamily: "sans-serif-medium",
@@ -181,6 +182,12 @@ const styles = StyleSheet.create({
   },
   menuHeaderList:{fontWeight:'bold',fontSize:16,fontFamily:"monospace",fontWeight:"500",color:"white"},
   menuDescList:{fontSize:14,color:"#999"},
-  dotGrow:{flexGrow:1,borderBottomColor:"#999"}
+  menuListstyles:{
+  flexWrap:"wrap",
+  flexDirection:"row",
+  alignContent:"space-between",
+  justifyContent:"space-between",
+marginVertical:10},
+  hrLine:{flexGrow:1,borderBottomColor:"#999",borderBottomWidth:5}
 
 });
