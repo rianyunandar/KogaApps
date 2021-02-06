@@ -7,6 +7,7 @@ import Loader from '../Components/Loader';
 import Axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
 
+
  export default class DetailsScreen extends React.Component {
 
   // const menuId = useNavigationParam('key');
@@ -17,17 +18,33 @@ import AsyncStorage from '@react-native-community/async-storage';
     this.state = {
       menuID: getId,
       dataDetail: [],
-      loading:true
+      loading:true,
+      userToken:null
     }}
   
+     getToken = async () => {
+      try {
+        const usertoken = await AsyncStorage.getItem('token')
+        if(usertoken !== null) {
+         this.setState({
+           userToken:usertoken
+         })
+        }
+      } catch(e) {
+        console.error(e);
+        // error reading value
+      }
+    } 
     componentDidMount() {
-      const userToken =  AsyncStorage.getItem('@token')
-      console.log(userToken)
+      // this.getToken()
+      console.log(this.state.userToken)
       const params = this.state.menuID;
       const url = `${api}/menus/id/${params}`;
       Axios.get(url, {
         timeout: 20000
-      },{headers: {"Authorization" : `Bearer ${userToken}`}})
+      }
+      // ,{headers: {"Authorization" : `Bearer ${this.state.userToken}`}}
+      )
         .then((response) => {
           this.setState({
             loading: false,
