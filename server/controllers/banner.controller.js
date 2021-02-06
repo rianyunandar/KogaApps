@@ -15,7 +15,7 @@ class BannerController {
             throw new HttpException(404, 'Banners not found');
         }
 
-        res.json(bannerList);
+        res.send(bannerList);
     };
 
     getBannerById = async (req, res, next) => {

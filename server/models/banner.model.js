@@ -15,7 +15,7 @@ class MenuModal {
         const { columnSet, values } = multipleColumnSet(params)
         sql += ` WHERE ${columnSet}`;
 
-        return await query(sql, [...values]);
+        return await query(sql, ...values);
     }
 
     findOne = async (params) => {
