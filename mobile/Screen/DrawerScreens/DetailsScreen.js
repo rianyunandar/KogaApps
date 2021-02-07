@@ -5,7 +5,8 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import api from "../../api";
 import 'intl';
@@ -14,6 +15,7 @@ import Loader from '../Components/Loader';
 import Axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
 var { height, width } = Dimensions.get("window");
+import { Ionicons  } from '@expo/vector-icons';
 
 const numberFormat = (value) =>
   new Intl.NumberFormat('locales', {
@@ -68,16 +70,22 @@ const numberFormat = (value) =>
           console.error(error);
         });
     }
-
+    backHandler() {
+      return this.props.navigation.navigate('HomeScreen');
+    }
 
   render() {
     // <FlatList
     // data={this.state.dataDetail}
     // renderItem={({ item }) => 
     // (
-      console.log(this.state.dataDetail)
+      // console.log(this.state.dataDetail)
       return(
         <View style={styles.container}>
+          <TouchableOpacity onPress={() => this.backHandler()}>
+             <Ionicons name="arrow-back-circle-sharp" size={30} color="white" style={{marginBottom: 20}} />
+             </TouchableOpacity>
+         
          <Image style={styles.imageBanner} 
           source={{ uri: this.state.dataDetail.url_image }} />
          <Text style={styles.menuHeader}>

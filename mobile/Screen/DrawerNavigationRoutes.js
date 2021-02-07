@@ -80,7 +80,7 @@ const settingScreenStack = ({navigation}) => {
         name="SettingsScreen"
         component={SettingsScreen}
         options={{
-          title: 'Settings', //Set Header Title
+          title: 'About', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -102,12 +102,12 @@ const DrawerNavigatorRoutes = (props) => {
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
+        options={{drawerLabel: 'Home'}}
         component={homeScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{drawerLabel: 'About'}}
         component={settingScreenStack}
       />
     </Drawer.Navigator>
